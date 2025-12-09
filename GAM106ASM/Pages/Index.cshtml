@@ -1,0 +1,119 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Server Login";
+    Layout = "_Layout";
+}
+
+<style>
+    .login-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 70vh;
+    }
+
+    .login-box {
+        max-width: 450px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .server-logo {
+        font-size: 4rem;
+        margin-bottom: 10px;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @@keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-15px);
+        }
+    }
+
+    .login-title {
+        font-size: 3rem;
+        color: #FFF;
+        text-shadow:
+            4px 4px 0px #3F3F3F,
+            5px 5px 0px #000;
+        margin-bottom: 30px;
+        letter-spacing: 2px;
+    }
+
+    .form-label {
+        display: block;
+        text-align: left;
+        color: var(--mc-dark-gray);
+        font-size: 1.3rem;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .login-footer {
+        margin-top: 25px;
+        padding: 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 5px;
+        color: #CCC;
+        font-size: 1.1rem;
+    }
+
+    .torch-animation {
+        margin-top: 30px;
+        filter: drop-shadow(0 0 10px rgba(255, 200, 0, 0.5));
+    }
+</style>
+
+<div class="login-wrapper">
+    <div class="login-box">
+        <div class="server-logo">⛏️</div>
+        <h1 class="login-title">MINECRAFT DB</h1>
+
+        <div class="minecraft-panel">
+            <h2
+                style="text-align: center; margin-bottom: 25px; color: #2E7D32; font-size: 2rem; font-family: 'VT323', monospace; font-weight: bold;">
+                🔐 SERVER LOGIN
+            </h2>
+
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div class="alert-danger">
+                    ❌ @Model.ErrorMessage
+                </div>
+            }
+
+            <form method="post">
+                <div class="mb-3">
+                    <label class="form-label">📧 EMAIL / USERNAME</label>
+                    <input type="text" class="minecraft-input" asp-for="Email" placeholder="steve@minecraft.net"
+                        required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">🔑 PASSWORD</label>
+                    <input type="password" class="minecraft-input" asp-for="Password" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="minecraft-btn" style="width: 100%; margin-top: 15px; font-size: 1.5rem;">
+                    ⚡ JOIN SERVER
+                </button>
+            </form>
+
+            <div class="login-footer">
+                <p>🛡️ Don't have an account? <a href="/Register"
+                        style="color: #4CAF50; text-decoration: underline; font-weight: bold; font-family: 'VT323', monospace; font-size: 1.3rem;">Register
+                        here</a></p>
+            </div>
+        </div>
+
+        <div class="torch-animation">
+            <span style="font-size: 80px;">🔥</span>
+        </div>
+    </div>
+</div>

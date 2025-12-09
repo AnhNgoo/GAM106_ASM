@@ -1,0 +1,236 @@
+@page
+@model GAM106ASM.Pages.Admin.ResourcesModel
+@{
+    ViewData["Title"] = "Resources Management";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resources Management - Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        :root {
+            --mc-primary: #4CAF50;
+            --mc-dark: #2E7D32;
+            --mc-light: #F1F8E9;
+            --mc-accent: #FFC107;
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            background: linear-gradient(135deg, #C8E6C9 0%, #A5D6A7 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--mc-primary) 0%, var(--mc-dark) 100%);
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            color: #FFF !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-weight: bold;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid #FFF;
+            color: #FFF;
+            padding: 8px 20px;
+            font-size: 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            color: var(--mc-dark);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-container {
+            background: #FFF;
+            border: 3px solid var(--mc-primary);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <a class="navbar-brand" href="/Admin/Dashboard">⛏ ADMIN PANEL</a>
+            <a href="/Admin/Dashboard" class="btn-back">← Dashboard</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>🌲 RESOURCES MANAGEMENT</h1>
+            <button class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#addModal">+ Add
+                Resource</button>
+        </div>
+
+        @if (TempData["Message"] != null)
+        {
+            <div class="alert alert-success">✅ @TempData["Message"]</div>
+        }
+
+        <div class="table-container">
+            <table class="table table-hover">
+                <thead class="table-success">
+                    <tr>
+                        <th>ID</th>
+                        <th>Resource Name</th>
+                        <th>Description</th>
+                        <th>Texture URL</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var resource in Model.Resources)
+                    {
+                        <tr>
+                            <td>@resource.ResourceId</td>
+                            <td><strong>@resource.ResourceName</strong></td>
+                            <td>@(resource.Description ?? "N/A")</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(resource.TextureUrl))
+                                {
+                                    <img src="@resource.TextureUrl" alt="texture"
+                                        style="width: 48px; height: 48px; object-fit: cover;" />
+                                }
+                                else
+                                {
+                                    <span>🪵</span>
+                                }
+                            </td>
+                            <td>
+                                <button class="btn btn-warning btn-sm"
+                                    onclick="openEditModal(@resource.ResourceId, '@resource.ResourceName', '@(resource.Description?.Replace("'", "\\'"))', '@resource.TextureUrl')">✏️
+                                    Edit</button>
+                                <form method="post" asp-page-handler="Delete" style="display: inline;">
+                                    <input type="hidden" name="id" value="@resource.ResourceId" />
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Delete?')">🗑️ Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">➕ Add Resource</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="post" asp-page-handler="Add" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Resource Name:</label>
+                            <input type="text" name="name" class="form-control" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description:</label>
+                            <textarea name="description" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Upload Texture:</label>
+                            <input type="file" name="textureFile" class="form-control" accept="image/*" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Or Texture URL:</label>
+                            <input type="text" name="textureUrl" class="form-control" placeholder="Leave empty if uploading file" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">💾 Save</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title">✏️ Edit Resource</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="post" asp-page-handler="Edit" enctype="multipart/form-data">
+                    <input type="hidden" name="id" id="editId" />
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Resource Name:</label>
+                            <input type="text" name="name" id="editName" class="form-control" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description:</label>
+                            <textarea name="description" id="editDescription" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Upload New Texture:</label>
+                            <input type="file" name="textureFile" class="form-control" accept="image/*" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Or Texture URL:</label>
+                            <input type="text" name="textureUrl" id="editTextureUrl" class="form-control" placeholder="Leave empty to keep current" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-warning">💾 Update</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function openEditModal(id, name, description, textureUrl) {
+            document.getElementById('editId').value = id;
+            document.getElementById('editName').value = name;
+            document.getElementById('editDescription').value = description || '';
+            document.getElementById('editTextureUrl').value = textureUrl || '';
+            new bootstrap.Modal(document.getElementById('editModal')).show();
+        }
+    </script>
+</body>
+
+</html>

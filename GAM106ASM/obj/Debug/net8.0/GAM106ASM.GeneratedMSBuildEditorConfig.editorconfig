@@ -1,0 +1,121 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = GAM106ASM
+build_property.RootNamespace = GAM106ASM
+build_property.ProjectDir = E:\FPT Polytechnic\GAM106 - Lập trình Game Back-End\Labs\GAM106ASM\GAM106ASM\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = E:\FPT Polytechnic\GAM106 - Lập trình Game Back-End\Labs\GAM106ASM\GAM106ASM
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Admin/Characters.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cQ2hhcmFjdGVycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Admin/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Admin/GameModes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cR2FtZU1vZGVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Admin/Items.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cSXRlbXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Admin/ItemTypes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cSXRlbVR5cGVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Admin/MonsterKills.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cTW9uc3RlcktpbGxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Admin/Monsters.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cTW9uc3RlcnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Admin/PlayerQuests.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cUGxheWVyUXVlc3RzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Admin/Players.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cUGxheWVycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Admin/PlayHistories.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cUGxheUhpc3Rvcmllcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Admin/Quests.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cUXVlc3RzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Admin/ResourceGatherings.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cUmVzb3VyY2VHYXRoZXJpbmdzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Admin/Resources.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cUmVzb3VyY2VzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Admin/TestUnityAPI.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cVGVzdFVuaXR5QVBJLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Admin/Transactions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cVHJhbnNhY3Rpb25zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Admin/Vehicles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cVmVoaWNsZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Member/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWVtYmVyXERhc2hib2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVnaXN0ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/FPT Polytechnic/GAM106 - Lập trình Game Back-End/Labs/GAM106ASM/GAM106ASM/Pages/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-03g3j0mke3

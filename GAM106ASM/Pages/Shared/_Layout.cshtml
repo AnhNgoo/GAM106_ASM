@@ -1,0 +1,323 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Minecraft Database</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --mc-primary: #4CAF50;
+            --mc-secondary: #81C784;
+            --mc-accent: #FFC107;
+            --mc-dark: #2E7D32;
+            --mc-light: #F1F8E9;
+            --mc-bg: #FFFFFF;
+            --mc-panel-bg: #E8F5E9;
+            --mc-text: #1B5E20;
+            --mc-border: #66BB6A;
+            --mc-shadow: rgba(0, 0, 0, 0.1);
+            --mc-hover: #66BB6A;
+            --mc-red: #E53935;
+            --mc-blue: #1E88E5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            background: linear-gradient(135deg, #C8E6C9 0%, #A5D6A7 100%);
+            min-height: 100vh;
+            color: var(--mc-text);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Modern Minecraft Grid Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, rgba(76, 175, 80, 0.05) 0px, transparent 1px, transparent 20px, rgba(76, 175, 80, 0.05) 21px),
+                repeating-linear-gradient(90deg, rgba(76, 175, 80, 0.05) 0px, transparent 1px, transparent 20px, rgba(76, 175, 80, 0.05) 21px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Minecraft Container */
+        .minecraft-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Modern Minecraft Panel */
+        .minecraft-panel {
+            background: var(--mc-bg);
+            border: 3px solid var(--mc-border);
+            border-radius: 8px;
+            box-shadow: 
+                0 4px 6px var(--mc-shadow),
+                0 0 0 1px rgba(76, 175, 80, 0.1);
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .minecraft-panel:hover {
+            box-shadow: 
+                0 6px 12px var(--mc-shadow),
+                0 0 0 2px var(--mc-border);
+            transform: translateY(-2px);
+        }
+
+        /* Modern Minecraft Header */
+        .minecraft-header {
+            font-family: 'VT323', monospace;
+            font-size: 2.8rem;
+            color: var(--mc-dark);
+            text-shadow: 2px 2px 0px rgba(46, 125, 50, 0.2);
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Modern Minecraft Button */
+        .minecraft-btn {
+            font-family: 'VT323', monospace;
+            background: linear-gradient(180deg, var(--mc-primary) 0%, var(--mc-dark) 100%);
+            border: 2px solid var(--mc-dark);
+            border-radius: 6px;
+            color: #FFF;
+            padding: 12px 24px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            box-shadow: 
+                0 4px 6px var(--mc-shadow),
+                inset 0 1px 0 rgba(255,255,255,0.2);
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .minecraft-btn:hover {
+            background: linear-gradient(180deg, var(--mc-secondary) 0%, var(--mc-primary) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px var(--mc-shadow);
+        }
+
+        .minecraft-btn:active {
+            transform: translateY(0px);
+            box-shadow: 0 2px 4px var(--mc-shadow);
+        }
+
+        /* Modern Minecraft Input */
+        .minecraft-input {
+            font-family: 'VT323', monospace;
+            background: #FFF;
+            border: 2px solid var(--mc-border);
+            border-radius: 6px;
+            color: var(--mc-text);
+            padding: 12px;
+            font-size: 1.2rem;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .minecraft-input:focus {
+            outline: none;
+            border-color: var(--mc-primary);
+            box-shadow: 
+                0 0 0 3px rgba(76, 175, 80, 0.2),
+                inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Modern Navbar */
+        .mc-navbar {
+            background: linear-gradient(135deg, var(--mc-primary) 0%, var(--mc-dark) 100%);
+            padding: 15px 0;
+            border-bottom: 3px solid var(--mc-dark);
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px var(--mc-shadow);
+        }
+
+        .mc-navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .mc-navbar-brand {
+            font-family: 'VT323', monospace;
+            font-size: 2.2rem;
+            color: #FFF;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .mc-navbar-brand:hover {
+            color: var(--mc-accent);
+            transform: scale(1.05);
+        }
+
+        .mc-navbar-nav {
+            display: flex;
+            gap: 10px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .mc-navbar-nav a {
+            color: #FFF;
+            text-decoration: none;
+            font-size: 1.3rem;
+            padding: 8px 16px;
+            transition: all 0.3s ease;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.1);
+            font-weight: bold;
+        }
+
+        .mc-navbar-nav a:hover {
+            background: rgba(255,255,255,0.2);
+            color: var(--mc-accent);
+            transform: translateY(-2px);
+        }
+
+        /* Modern Footer */
+        .mc-footer {
+            background: linear-gradient(135deg, var(--mc-dark) 0%, var(--mc-primary) 100%);
+            color: #FFF;
+            text-align: center;
+            padding: 25px;
+            margin-top: 50px;
+            border-top: 3px solid var(--mc-border);
+            box-shadow: 0 -4px 12px var(--mc-shadow);
+        }
+
+        .mc-footer a {
+            color: var(--mc-accent);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .mc-footer a:hover {
+            color: #FFF;
+        }
+
+        /* Modern Table Styles */
+        .minecraft-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px var(--mc-shadow);
+        }
+
+        .minecraft-table th {
+            background: linear-gradient(180deg, var(--mc-primary) 0%, var(--mc-dark) 100%);
+            color: #FFF;
+            padding: 15px;
+            border: none;
+            text-align: left;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .minecraft-table td {
+            background: #FFF;
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--mc-border);
+            color: var(--mc-text);
+        }
+
+        .minecraft-table tbody tr:hover td {
+            background: var(--mc-panel-bg);
+            cursor: pointer;
+        }
+
+        .minecraft-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Modern Alert Styles */
+        .alert-success {
+            background: linear-gradient(135deg, #C8E6C9 0%, #A5D6A7 100%);
+            color: var(--mc-dark);
+            border: 2px solid var(--mc-primary);
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 15px 0;
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 8px var(--mc-shadow);
+            font-weight: bold;
+        }
+
+        .alert-danger {
+            background: linear-gradient(135deg, #FFCDD2 0%, #EF9A9A 100%);
+            color: #B71C1C;
+            border: 2px solid var(--mc-red);
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 15px 0;
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 8px var(--mc-shadow);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <nav class="mc-navbar">
+        <div class="container">
+            <a class="mc-navbar-brand" asp-area="" asp-page="/Index">⛏ MINECRAFT DB</a>
+            <ul class="mc-navbar-nav">
+                <li><a asp-area="" asp-page="/Index">Home</a></li>
+                <li><a asp-area="" asp-page="/Privacy">Server Rules</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="minecraft-container">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="mc-footer">
+        <div class="container">
+            &copy; 2025 - Minecraft Database Server - <a asp-area="" asp-page="/Privacy">Server Rules</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

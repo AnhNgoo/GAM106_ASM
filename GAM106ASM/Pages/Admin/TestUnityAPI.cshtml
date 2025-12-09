@@ -1,0 +1,802 @@
+@page
+@model GAM106ASM.Pages.Admin.TestUnityAPIModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Unity API - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        :root {
+            --mc-primary: #4CAF50;
+            --mc-dark: #2E7D32;
+            --mc-accent: #FFC107;
+        }
+
+        * {
+            font-family: 'VT323', monospace !important;
+        }
+
+        body {
+            background: linear-gradient(135deg, #C8E6C9 0%, #A5D6A7 100%);
+            min-height: 100vh;
+            color: #1B5E20;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--mc-primary) 0%, var(--mc-dark) 100%);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid var(--mc-dark);
+        }
+
+        .navbar-brand {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #FFF !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-back {
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            border: 2px solid #1976D2;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 1.3rem;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .api-section {
+            background: #FFF;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 3px solid var(--mc-primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .api-section h2 {
+            color: var(--mc-dark);
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--mc-primary);
+            padding-bottom: 10px;
+        }
+
+        .api-endpoint {
+            background: #F5F5F5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--mc-primary);
+        }
+
+        .method-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .method-get {
+            background: #2196F3;
+            color: white;
+        }
+
+        .method-post {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .method-put {
+            background: #FF9800;
+            color: white;
+        }
+
+        .endpoint-url {
+            font-family: 'Courier New', monospace;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .test-form {
+            background: #E8F5E9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            font-weight: bold;
+            color: var(--mc-dark);
+            font-size: 1.2rem;
+        }
+
+        .form-control {
+            border: 2px solid #DDD;
+            border-radius: 6px;
+            padding: 8px;
+            font-size: 1.1rem;
+        }
+
+        .btn-test {
+            background: linear-gradient(135deg, var(--mc-primary) 0%, var(--mc-dark) 100%);
+            border: none;
+            padding: 10px 25px;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .btn-test:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .response-area {
+            background: #263238;
+            color: #A5D6A7;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: #E0E0E0;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--mc-primary) 0%, var(--mc-dark) 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            🧪 Unity API Tester
+        </div>
+        <a href="/Admin/Dashboard" class="btn-back">← Back to Dashboard</a>
+    </nav>
+
+    <div class="container">
+        <div class="tab-buttons">
+            <button class="tab-btn active" onclick="showTab('character')">Character API</button>
+            <button class="tab-btn" onclick="showTab('shop')">Shop API</button>
+            <button class="tab-btn" onclick="showTab('gameinfo')">GameInfo API</button>
+            <button class="tab-btn" onclick="showTab('gameplay')">Gameplay API</button>
+        </div>
+
+        <!-- CHARACTER API -->
+        <div id="character-tab" class="tab-content active">
+            <div class="api-section">
+                <h2>🎮 Character Controller</h2>
+
+                <!-- Check Character Exists -->
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <span class="endpoint-url">/api/Character/check/{playerId}</span>
+                    <div class="test-form">
+                        <div class="form-group">
+                            <label class="form-label">Player ID:</label>
+                            <input type="number" id="checkCharPlayerId" class="form-control" placeholder="1">
+                        </div>
+                        <button class="btn-test" onclick="testCheckCharacter()">Test API</button>
+                        <div id="checkCharResponse" class="response-area"></div>
+                    </div>
+                </div>
+
+                <!-- Get Character (Full Info for GameHub) -->
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <span class="endpoint-url">/api/Character/{playerId}</span>
+                    <div class="test-form">
+                        <div class="form-group">
+                            <label class="form-label">Player ID:</label>
+                            <input type="number" id="getCharPlayerId" class="form-control" placeholder="1">
+                        </div>
+                        <button class="btn-test" onclick="testGetCharacter()">Test API</button>
+                        <div id="getCharResponse" class="response-area"></div>
+                    </div>
+                </div>
+
+                <!-- Create Character -->
+                <div class="api-endpoint">
+                    <span class="method-badge method-post">POST</span>
+                    <span class="endpoint-url">/api/Character/create</span>
+                    <div class="test-form">
+                        <div class="form-group">
+                            <label class="form-label">Player ID:</label>
+                            <input type="number" id="createCharPlayerId" class="form-control" placeholder="1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Character Name:</label>
+                            <input type="text" id="createCharName" class="form-control" placeholder="Nguyễn Văn A">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Sex:</label>
+                            <select id="createCharSex" class="form-control">
+                                <option value="nam">Nam</option>
+                                <option value="nu">Nữ</option>
+                            </select>
+                        </div>
+                        <button class="btn-test" onclick="testCreateCharacter()">Test API</button>
+                        <div id="createCharResponse" class="response-area"></div>
+                    </div>
+                </div>
+
+                <!-- Update Skin -->
+                <div class="api-endpoint">
+                    <span class="method-badge method-put">PUT</span>
+                    <span class="endpoint-url">/api/Character/{characterId}/skin</span>
+                    <div class="test-form">
+                        <div class="form-group">
+                            <label class="form-label">Character ID:</label>
+                            <input type="number" id="updateSkinCharId" class="form-control" placeholder="1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Skin URL:</label>
+                            <input type="text" id="updateSkinUrl" class="form-control" placeholder="/Image/steve.png">
+                        </div>
+                        <button class="btn-test" onclick="testUpdateSkin()">Test API</button>
+                        <div id="updateSkinResponse" class="response-area"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SHOP API -->
+        <div id="shop-tab" class="tab-content">
+            <div class="api-section">
+                <h2>🛒 Shop Controller</h2>
+
+                <!-- Premium Items -->
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <span class="endpoint-url">/api/Shop/premium</span>
+                    <div class="test-form">
+                        <button class="btn-test" onclick="testGetPremiumItems()">Test API</button>
+                        <div id="premiumResponse" class="response-area"></div>
+                    </div>
+                </div>
+
+                <!-- Affordable Items -->
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <span class="endpoint-url">/api/Shop/affordable/{playerId}</span>
+                    <div class="test-form">
+                        <div class="form-group">
+                            <label class="form-label">Player ID:</label>
+                            <input type="number" id="affordablePlayerId" class="form-control" placeholder="1">
+                        </div>
+                        <button class="btn-test" onclick="testGetAffordableItems()">Test API</button>
+                        <div id="affordableResponse" class="response-area"></div>
+                    </div>
+                </div>
+
+                <!-- Search Items -->
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <span class="endpoint-url">/api/Shop/search?name=...&maxPrice=...</span>
+                    <div class="test-form">
+                        <div class="form-group">
+                            <label class="form-label">Item Name:</label>
+                            <input type="text" id="searchName" class="form-control" placeholder="kim cương">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Max Price:</label>
+                            <input type="number" id="searchMaxPrice" class="form-control" placeholder="500">
+                        </div>
+                        <button class="btn-test" onclick="testSearchItems()">Test API</button>
+                        <div id="searchResponse" class="response-area"></div>
+                    </div>
+                </div>
+
+                <!-- Hot Items -->
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <span class="endpoint-url">/api/Shop/hot</span>
+                    <div class="test-form">
+                        <button class="btn-test" onclick="testGetHotItems()">Test API</button>
+                        <div id="hotResponse" class="response-area"></div>
+                    </div>
+                </div>
+
+                <!-- Purchase Item -->
+                <div class="api-endpoint">
+                    <span class="method-badge method-post">POST</span>
+                    <span class="endpoint-url">/api/Shop/purchase</span>
+                    <div class="test-form">
+                        <div class="form-group">
+                            <label class="form-label">Player ID:</label>
+                            <input type="number" id="purchasePlayerId" class="form-control" placeholder="1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Item Sheet ID:</label>
+                            <input type="number" id="purchaseItemId" class="form-control" placeholder="1">
+                        </div>
+                        <button class="btn-test" onclick="testPurchaseItem()">Test API</button>
+                        <div id="purchaseResponse" class="response-area"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GAMEINFO API -->
+        <div id="gameinfo-tab" class="tab-content">
+            <div class="api-section">
+                <h2>ℹ️ GameInfo Controller</h2>
+
+                <!-- Get All Resources -->
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <span class="endpoint-url">/api/GameInfo/resources</span>
+                    <div class="test-form">
+                        <button class="btn-test" onclick="testGetResources()">Test API</button>
+                        <div id="resourcesResponse" class="response-area"></div>
+                    </div>
+                </div>
+
+                <!-- Online Players -->
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <span class="endpoint-url">/api/GameInfo/online-players</span>
+                    <div class="test-form">
+                        <button class="btn-test" onclick="testGetOnlinePlayers()">Test API</button>
+                        <div id="onlineResponse" class="response-area"></div>
+                    </div>
+                </div>
+
+                <!-- Game Modes -->
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <span class="endpoint-url">/api/GameInfo/game-modes</span>
+                    <div class="test-form">
+                        <button class="btn-test" onclick="testGetGameModes()">Test API</button>
+                        <div id="modesResponse" class="response-area"></div>
+                    </div>
+                </div>
+
+                <!-- Monsters -->
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <span class="endpoint-url">/api/GameInfo/monsters</span>
+                    <div class="test-form">
+                        <button class="btn-test" onclick="testGetMonsters()">Test API</button>
+                        <div id="monstersResponse" class="response-area"></div>
+                    </div>
+                </div>
+
+                <!-- Quests -->
+                <div class="api-endpoint">
+                    <span class="method-badge method-get">GET</span>
+                    <span class="endpoint-url">/api/GameInfo/quests</span>
+                    <div class="test-form">
+                        <button class="btn-test" onclick="testGetQuests()">Test API</button>
+                        <div id="questsResponse" class="response-area"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GAMEPLAY API -->
+        <div id="gameplay-tab" class="tab-content">
+            <div class="api-section">
+                <h2>🎯 Gameplay Controller</h2>
+
+                <!-- Start Session -->
+                <div class="api-endpoint">
+                    <span class="method-badge method-post">POST</span>
+                    <span class="endpoint-url">/api/Gameplay/start-session</span>
+                    <div class="test-form">
+                        <div class="form-group">
+                            <label class="form-label">Player ID:</label>
+                            <input type="number" id="startPlayerId" class="form-control" placeholder="1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Mode ID:</label>
+                            <input type="number" id="startModeId" class="form-control" placeholder="1">
+                        </div>
+                        <button class="btn-test" onclick="testStartSession()">Test API</button>
+                        <div id="startSessionResponse" class="response-area"></div>
+                    </div>
+                </div>
+
+                <!-- End Session -->
+                <div class="api-endpoint">
+                    <span class="method-badge method-post">POST</span>
+                    <span class="endpoint-url">/api/Gameplay/end-session</span>
+                    <div class="test-form">
+                        <div class="form-group">
+                            <label class="form-label">Player ID:</label>
+                            <input type="number" id="endPlayerId" class="form-control" placeholder="1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Mode ID:</label>
+                            <input type="number" id="endModeId" class="form-control" placeholder="1">
+                        </div>
+                        <button class="btn-test" onclick="testEndSession()">Test API</button>
+                        <div id="endSessionResponse" class="response-area"></div>
+                    </div>
+                </div>
+
+                <!-- Kill Monster -->
+                <div class="api-endpoint">
+                    <span class="method-badge method-post">POST</span>
+                    <span class="endpoint-url">/api/Gameplay/kill-monster</span>
+                    <div class="test-form">
+                        <div class="form-group">
+                            <label class="form-label">Player ID:</label>
+                            <input type="number" id="killPlayerId" class="form-control" placeholder="1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Monster ID:</label>
+                            <input type="number" id="killMonsterId" class="form-control" placeholder="1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Quantity:</label>
+                            <input type="number" id="killQuantity" class="form-control" placeholder="1" value="1">
+                        </div>
+                        <button class="btn-test" onclick="testKillMonster()">Test API</button>
+                        <div id="killMonsterResponse" class="response-area"></div>
+                    </div>
+                </div>
+
+                <!-- Update Stats -->
+                <div class="api-endpoint">
+                    <span class="method-badge method-put">PUT</span>
+                    <span class="endpoint-url">/api/Gameplay/update-stats</span>
+                    <div class="test-form">
+                        <div class="form-group">
+                            <label class="form-label">Player ID:</label>
+                            <input type="number" id="statsPlayerId" class="form-control" placeholder="1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Health Bar (0-20):</label>
+                            <input type="number" id="statsHealth" class="form-control" placeholder="15">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Food Bar (0-20):</label>
+                            <input type="number" id="statsFood" class="form-control" placeholder="18">
+                        </div>
+                        <button class="btn-test" onclick="testUpdateStats()">Test API</button>
+                        <div id="updateStatsResponse" class="response-area"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function showResponse(elementId, data, status) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.innerHTML = `<strong>Status: ${status}</strong>\n\n${JSON.stringify(data, null, 2)}`;
+        }
+
+        // CHARACTER API
+        async function testCheckCharacter() {
+            const playerId = document.getElementById('checkCharPlayerId').value;
+            try {
+                const response = await fetch(`/api/Character/check/${playerId}`);
+                const data = await response.json();
+                showResponse('checkCharResponse', data, response.status);
+            } catch (error) {
+                showResponse('checkCharResponse', { error: error.message }, 'Error');
+            }
+        }
+
+        async function testGetCharacter() {
+            const playerId = document.getElementById('getCharPlayerId').value;
+            try {
+                const response = await fetch(`/api/Character/${playerId}`);
+                const data = await response.json();
+                showResponse('getCharResponse', data, response.status);
+            } catch (error) {
+                showResponse('getCharResponse', { error: error.message }, 'Error');
+            }
+        }
+
+        async function testCreateCharacter() {
+            const playerId = document.getElementById('createCharPlayerId').value;
+            const characterName = document.getElementById('createCharName').value;
+            const sex = document.getElementById('createCharSex').value;
+
+            try {
+                const response = await fetch('/api/Character/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ playerId: parseInt(playerId), characterName, sex })
+                });
+                const data = await response.json();
+                showResponse('createCharResponse', data, response.status);
+            } catch (error) {
+                showResponse('createCharResponse', { error: error.message }, 'Error');
+            }
+        }
+
+        async function testUpdateSkin() {
+            const characterId = document.getElementById('updateSkinCharId').value;
+            const skinUrl = document.getElementById('updateSkinUrl').value;
+
+            try {
+                const response = await fetch(`/api/Character/${characterId}/skin`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ skinUrl })
+                });
+                const data = await response.json();
+                showResponse('updateSkinResponse', data, response.status);
+            } catch (error) {
+                showResponse('updateSkinResponse', { error: error.message }, 'Error');
+            }
+        }
+
+        // SHOP API
+        async function testGetPremiumItems() {
+            try {
+                const response = await fetch('/api/Shop/premium');
+                const data = await response.json();
+                showResponse('premiumResponse', data, response.status);
+            } catch (error) {
+                showResponse('premiumResponse', { error: error.message }, 'Error');
+            }
+        }
+
+        async function testGetAffordableItems() {
+            const playerId = document.getElementById('affordablePlayerId').value;
+            try {
+                const response = await fetch(`/api/Shop/affordable/${playerId}`);
+                const data = await response.json();
+                showResponse('affordableResponse', data, response.status);
+            } catch (error) {
+                showResponse('affordableResponse', { error: error.message }, 'Error');
+            }
+        }
+
+        async function testSearchItems() {
+            const name = document.getElementById('searchName').value;
+            const maxPrice = document.getElementById('searchMaxPrice').value;
+            const params = new URLSearchParams();
+            if (name) params.append('name', name);
+            if (maxPrice) params.append('maxPrice', maxPrice);
+
+            try {
+                const response = await fetch(`/api/Shop/search?${params}`);
+                const data = await response.json();
+                showResponse('searchResponse', data, response.status);
+            } catch (error) {
+                showResponse('searchResponse', { error: error.message }, 'Error');
+            }
+        }
+
+        async function testGetHotItems() {
+            try {
+                const response = await fetch('/api/Shop/hot');
+                const data = await response.json();
+                showResponse('hotResponse', data, response.status);
+            } catch (error) {
+                showResponse('hotResponse', { error: error.message }, 'Error');
+            }
+        }
+
+        async function testPurchaseItem() {
+            const playerId = document.getElementById('purchasePlayerId').value;
+            const itemSheetId = document.getElementById('purchaseItemId').value;
+
+            try {
+                const response = await fetch('/api/Shop/purchase', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ playerId: parseInt(playerId), itemSheetId: parseInt(itemSheetId) })
+                });
+                const data = await response.json();
+                showResponse('purchaseResponse', data, response.status);
+            } catch (error) {
+                showResponse('purchaseResponse', { error: error.message }, 'Error');
+            }
+        }
+
+        // GAMEINFO API
+        async function testGetResources() {
+            try {
+                const response = await fetch('/api/GameInfo/resources');
+                const data = await response.json();
+                showResponse('resourcesResponse', data, response.status);
+            } catch (error) {
+                showResponse('resourcesResponse', { error: error.message }, 'Error');
+            }
+        }
+
+        async function testGetOnlinePlayers() {
+            try {
+                const response = await fetch('/api/GameInfo/online-players');
+                const data = await response.json();
+                showResponse('onlineResponse', data, response.status);
+            } catch (error) {
+                showResponse('onlineResponse', { error: error.message }, 'Error');
+            }
+        }
+
+        async function testGetGameModes() {
+            try {
+                const response = await fetch('/api/GameInfo/game-modes');
+                const data = await response.json();
+                showResponse('modesResponse', data, response.status);
+            } catch (error) {
+                showResponse('modesResponse', { error: error.message }, 'Error');
+            }
+        }
+
+        async function testGetMonsters() {
+            try {
+                const response = await fetch('/api/GameInfo/monsters');
+                const data = await response.json();
+                showResponse('monstersResponse', data, response.status);
+            } catch (error) {
+                showResponse('monstersResponse', { error: error.message }, 'Error');
+            }
+        }
+
+        async function testGetQuests() {
+            try {
+                const response = await fetch('/api/GameInfo/quests');
+                const data = await response.json();
+                showResponse('questsResponse', data, response.status);
+            } catch (error) {
+                showResponse('questsResponse', { error: error.message }, 'Error');
+            }
+        }
+
+        // GAMEPLAY API
+        async function testStartSession() {
+            const playerId = document.getElementById('startPlayerId').value;
+            const modeId = document.getElementById('startModeId').value;
+
+            try {
+                const response = await fetch('/api/Gameplay/start-session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ playerId: parseInt(playerId), modeId: parseInt(modeId) })
+                });
+                const data = await response.json();
+                showResponse('startSessionResponse', data, response.status);
+            } catch (error) {
+                showResponse('startSessionResponse', { error: error.message }, 'Error');
+            }
+        }
+
+        async function testEndSession() {
+            const playerId = document.getElementById('endPlayerId').value;
+            const modeId = document.getElementById('endModeId').value;
+
+            try {
+                const response = await fetch('/api/Gameplay/end-session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ playerId: parseInt(playerId), modeId: parseInt(modeId) })
+                });
+                const data = await response.json();
+                showResponse('endSessionResponse', data, response.status);
+            } catch (error) {
+                showResponse('endSessionResponse', { error: error.message }, 'Error');
+            }
+        }
+
+        async function testKillMonster() {
+            const playerId = document.getElementById('killPlayerId').value;
+            const monsterId = document.getElementById('killMonsterId').value;
+            const quantity = document.getElementById('killQuantity').value;
+
+            try {
+                const response = await fetch('/api/Gameplay/kill-monster', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        playerId: parseInt(playerId),
+                        monsterId: parseInt(monsterId),
+                        quantity: parseInt(quantity)
+                    })
+                });
+                const data = await response.json();
+                showResponse('killMonsterResponse', data, response.status);
+            } catch (error) {
+                showResponse('killMonsterResponse', { error: error.message }, 'Error');
+            }
+        }
+
+        async function testUpdateStats() {
+            const playerId = document.getElementById('statsPlayerId').value;
+            const healthBar = document.getElementById('statsHealth').value;
+            const foodBar = document.getElementById('statsFood').value;
+
+            try {
+                const response = await fetch('/api/Gameplay/update-stats', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        playerId: parseInt(playerId),
+                        healthBar: healthBar ? parseInt(healthBar) : null,
+                        foodBar: foodBar ? parseInt(foodBar) : null
+                    })
+                });
+                const data = await response.json();
+                showResponse('updateStatsResponse', data, response.status);
+            } catch (error) {
+                showResponse('updateStatsResponse', { error: error.message }, 'Error');
+            }
+        }
+    </script>
+</body>
+
+</html>

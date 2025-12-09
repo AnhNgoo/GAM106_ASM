@@ -1,0 +1,136 @@
+﻿@page
+@model PrivacyModel
+@{
+    ViewData["Title"] = "Server Rules";
+}
+
+<style>
+    .rules-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .rules-title {
+        font-size: 3.5rem;
+        color: #FFF;
+        text-shadow: 
+            4px 4px 0px #3F3F3F,
+            5px 5px 0px #000;
+        margin-bottom: 10px;
+    }
+
+    .rules-subtitle {
+        font-size: 1.5rem;
+        color: var(--mc-yellow);
+        text-shadow: 2px 2px 0px #000;
+    }
+
+    .rules-panel {
+        background: var(--mc-bg);
+        border: 4px solid #000;
+        box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+        padding: 30px;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .rule-item {
+        background: rgba(0,0,0,0.2);
+        border-left: 4px solid var(--mc-green);
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .rule-title {
+        color: var(--mc-dark-gray);
+        font-size: 2rem;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .rule-icon {
+        font-size: 2rem;
+    }
+
+    .rule-text {
+        font-size: 1.3rem;
+        line-height: 1.6;
+        color: #333;
+    }
+
+    .accept-section {
+        margin-top: 40px;
+        text-align: center;
+        padding: 30px;
+        background: rgba(85,255,85,0.1);
+        border: 2px solid var(--mc-green);
+    }
+</style>
+
+<div class="rules-header">
+    <h1 class="rules-title">⚖️ SERVER RULES</h1>
+    <p class="rules-subtitle">Please read our server rules and privacy policy</p>
+</div>
+
+<div class="rules-panel">
+    <div class="rule-item">
+        <div class="rule-title">
+            <span class="rule-icon">🚫</span>
+            <span>1. No Griefing</span>
+        </div>
+        <p class="rule-text">
+            Respect other players' data and privacy. Do not attempt to access, modify, or delete data that doesn't belong to you.
+        </p>
+    </div>
+
+    <div class="rule-item">
+        <div class="rule-title">
+            <span class="rule-icon">📊</span>
+            <span>2. Data Collection</span>
+        </div>
+        <p class="rule-text">
+            We collect your email, username, avatar, and game statistics (experience points, health, inventory) to provide the best server experience and track your progress.
+        </p>
+    </div>
+
+    <div class="rule-item">
+        <div class="rule-title">
+            <span class="rule-icon">⚔️</span>
+            <span>3. Fair Play</span>
+        </div>
+        <p class="rule-text">
+            Cheating, exploiting bugs, or using unauthorized tools will result in immediate account suspension or permanent ban.
+        </p>
+    </div>
+
+    <div class="rule-item">
+        <div class="rule-title">
+            <span class="rule-icon">🔐</span>
+            <span>4. Account Security</span>
+        </div>
+        <p class="rule-text">
+            You are responsible for keeping your password secure. Never share your credentials with others.
+        </p>
+    </div>
+
+    <div class="rule-item">
+        <div class="rule-title">
+            <span class="rule-icon">💬</span>
+            <span>5. Respectful Communication</span>
+        </div>
+        <p class="rule-text">
+            Be kind to other players. Harassment, hate speech, or toxic behavior will not be tolerated.
+        </p>
+    </div>
+
+    <div class="accept-section">
+        <p style="font-size: 1.5rem; margin-bottom: 20px; color: var(--mc-dark-gray);">
+            ✅ By using this server, you agree to follow these rules.
+        </p>
+        <a href="/" class="minecraft-btn" style="font-size: 1.5rem; padding: 15px 40px;">
+            ← RETURN HOME
+        </a>
+    </div>
+</div>

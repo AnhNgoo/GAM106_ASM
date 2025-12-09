@@ -1,0 +1,123 @@
+@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register Account";
+    Layout = "_Layout";
+}
+
+<style>
+    .register-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 70vh;
+    }
+
+    .register-box {
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .server-logo {
+        font-size: 4rem;
+        margin-bottom: 10px;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @@keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-15px);
+        }
+    }
+
+    .register-title {
+        font-size: 3rem;
+        color: #FFF;
+        text-shadow:
+            4px 4px 0px #3F3F3F,
+            5px 5px 0px #000;
+        margin-bottom: 30px;
+        letter-spacing: 2px;
+    }
+
+    .form-label {
+        display: block;
+        text-align: left;
+        color: #2E7D32;
+        font-size: 1.3rem;
+        margin-bottom: 5px;
+        font-weight: bold;
+        font-family: 'VT323', monospace;
+    }
+</style>
+
+<div class="register-wrapper">
+    <div class="register-box">
+        <div class="server-logo">🎮</div>
+        <h1 class="register-title">CREATE ACCOUNT</h1>
+
+        <div class="minecraft-panel">
+            <h2
+                style="text-align: center; margin-bottom: 25px; color: #2E7D32; font-size: 2rem; font-family: 'VT323', monospace; font-weight: bold;">
+                📝 PLAYER REGISTRATION
+            </h2>
+
+            @if (TempData["RegisterMessage"] != null)
+            {
+                <div class="alert alert-success">
+                    ✅ @TempData["RegisterMessage"]
+                </div>
+            }
+
+            @if (TempData["RegisterError"] != null)
+            {
+                <div class="alert-danger">
+                    ❌ @TempData["RegisterError"]
+                </div>
+            }
+
+            <form method="post">
+                @Html.AntiForgeryToken()
+                <div class="mb-3">
+                    <label class="form-label">📧 EMAIL</label>
+                    <input type="email" class="minecraft-input" asp-for="Email" placeholder="steve@minecraft.net"
+                        required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">🔑 PASSWORD</label>
+                    <input type="password" class="minecraft-input" asp-for="Password" placeholder="••••••••" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">🔑 CONFIRM PASSWORD</label>
+                    <input type="password" class="minecraft-input" asp-for="ConfirmPassword" placeholder="••••••••"
+                        required>
+                </div>
+
+                <button type="submit" class="minecraft-btn" style="width: 100%; margin-top: 15px; font-size: 1.5rem;">
+                    ⚡ CREATE ACCOUNT
+                </button>
+            </form>
+
+            <div style="margin-top: 20px; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 5px;">
+                <p style="color: #CCC; font-size: 1.1rem;">
+                    🛡️ Already have an account?
+                    <a href="/"
+                        style="color: #4CAF50; text-decoration: underline; font-weight: bold; font-family: 'VT323', monospace; font-size: 1.3rem;">
+                        Login here
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <span style="font-size: 80px;">🔥</span>
+        </div>
+    </div>
+</div>

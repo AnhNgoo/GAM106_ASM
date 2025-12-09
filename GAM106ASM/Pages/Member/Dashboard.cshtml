@@ -1,0 +1,584 @@
+@page
+@model GAM106ASM.Pages.Member.DashboardModel
+@{
+    ViewData["Title"] = "Player Dashboard";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Player Dashboard - Minecraft Database</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        :root {
+            --mc-primary: #4CAF50;
+            --mc-dark: #2E7D32;
+            --mc-green: #55FF55;
+            --mc-red: #FF5555;
+            --mc-gold: #FFD700;
+            --mc-panel-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            background: linear-gradient(135deg, #C8E6C9 0%, #A5D6A7 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .mc-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .mc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 35px;
+            background: linear-gradient(135deg, var(--mc-primary) 0%, var(--mc-dark) 100%);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .mc-title {
+            font-size: 3rem;
+            color: #FFF;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            margin: 0;
+        }
+
+        .mc-btn {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            padding: 12px 30px;
+            font-family: 'VT323', monospace;
+            font-size: 1.5rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+            transition: transform 0.2s;
+        }
+
+        .mc-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.5);
+        }
+
+        .mc-btn:active {
+            transform: translateY(0);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 25px;
+        }
+
+        .mc-panel {
+            background: var(--mc-panel-bg);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .mc-panel-title {
+            font-size: 2.2rem;
+            color: var(--mc-dark);
+            border-bottom: 3px solid var(--mc-primary);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Profile Styles */
+        .profile-card {
+            text-align: center;
+        }
+
+        .avatar-frame {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, var(--mc-primary) 0%, var(--mc-dark) 100%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-placeholder {
+            font-size: 80px;
+        }
+
+        .player-name {
+            font-size: 2rem;
+            color: var(--mc-dark);
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        .player-email {
+            color: #666;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .stat-bar {
+            background-color: #e0e0e0;
+            height: 32px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-fill {
+            height: 100%;
+            display: block;
+            transition: width 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .stat-exp {
+            background: linear-gradient(90deg, #4CAF50 0%, #66BB6A 100%);
+        }
+
+        .stat-health {
+            background: linear-gradient(90deg, #f44336 0%, #e57373 100%);
+        }
+
+        .stat-food {
+            background: linear-gradient(90deg, #FF9800 0%, #FFB74D 100%);
+        }
+
+        .stat-label {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Table Styles */
+        .mc-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .mc-table th {
+            background: linear-gradient(135deg, var(--mc-primary) 0%, var(--mc-dark) 100%);
+            color: #FFF;
+            padding: 12px;
+            text-align: left;
+            font-size: 1.4rem;
+            border: none;
+        }
+
+        .mc-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            background-color: #FFF;
+            font-size: 1.2rem;
+        }
+
+        .mc-table tr:hover td {
+            background-color: #f5f5f5;
+        }
+
+        .quest-item {
+            background: #FFF;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            font-size: 1.4rem;
+        }
+
+        .quest-completed {
+            border-left: 4px solid var(--mc-primary);
+        }
+
+        .quest-incomplete {
+            border-left: 4px solid #FFC107;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            color: var(--mc-dark);
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .mc-input {
+            width: 100%;
+            padding: 12px;
+            background-color: #FFF;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            color: #333;
+            font-family: 'VT323', monospace;
+            font-size: 1.3rem;
+        }
+
+        .mc-input:focus {
+            border-color: var(--mc-primary);
+            outline: none;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-upload {
+            background: linear-gradient(135deg, var(--mc-primary) 0%, var(--mc-dark) 100%);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            padding: 10px 20px;
+            font-family: 'VT323', monospace;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+            margin: 10px 0;
+        }
+
+        .btn-update {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            padding: 12px;
+            font-family: 'VT323', monospace;
+            font-size: 1.4rem;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+        }
+
+        .stats-summary {
+            background: linear-gradient(135deg, #FFF9C4 0%, #FFF59D 100%);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(255, 235, 59, 0.3);
+        }
+
+        .stats-summary strong {
+            color: var(--mc-dark);
+            font-size: 1.5rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.7rem;
+            color: var(--mc-primary);
+            margin: 20px 0 10px;
+            font-weight: bold;
+        }
+
+        @@media (max-width: 968px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mc-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mc-container">
+        <header class="mc-header">
+            <h1 class="mc-title">MINECRAFT DATABASE</h1>
+            <form method="post" asp-page-handler="Logout">
+                <button type="submit" class="mc-btn mc-btn-danger">LOGOUT</button>
+            </form>
+        </header>
+
+        @if (!string.IsNullOrEmpty(Model.Message))
+        {
+            <div class="alert @(Model.Message.StartsWith("Error") ? "alert-danger" : "alert-success")" role="alert">
+                @Model.Message
+            </div>
+        }
+        @if (TempData["RegisterMessage"] != null)
+        {
+            <div class="alert alert-success" role="alert">@TempData["RegisterMessage"]</div>
+        }
+
+        <div class="dashboard-grid">
+            <!-- Left Column: Profile -->
+            <div class="left-col">
+                <div class="mc-panel profile-card">
+                    <h2 class="mc-panel-title">🎮 PROFILE</h2>
+                    <div class="avatar-frame">
+                        @if (!string.IsNullOrEmpty(Model.CurrentPlayer.AvatarUrl))
+                        {
+                            <img src="@Model.CurrentPlayer.AvatarUrl" alt="Avatar" class="avatar-img" />
+                        }
+                        else
+                        {
+                            <span class="avatar-placeholder">😐</span>
+                        }
+                    </div>
+
+                    <form method="post" asp-page-handler="UpdateAvatar" enctype="multipart/form-data">
+                        <label for="avatarInput" class="btn-upload">
+                            📸 Change Avatar
+                        </label>
+                        <input type="file" id="avatarInput" name="AvatarFile" accept="image/*" style="display: none;"
+                            onchange="this.form.submit()" />
+                    </form>
+
+                    <h3 class="player-name">@(Model.CurrentPlayer.Character?.CharacterName ?? "Steve")</h3>
+                    <p class="player-email">@Model.CurrentPlayer.EmailAccount</p>
+
+                    <div style="margin-top: 25px; text-align: left;">
+                        <div class="stat-bar">
+                            <div class="stat-fill stat-exp"
+                                style="width: @Math.Min(Model.CurrentPlayer.ExperiencePoints % 100, 100)%"></div>
+                            <div class="stat-label">⭐ EXP: @Model.CurrentPlayer.ExperiencePoints</div>
+                        </div>
+                        <div class="stat-bar">
+                            <div class="stat-fill stat-health"
+                                style="width: @((Model.CurrentPlayer.HealthBar / 20.0) * 100)%"></div>
+                            <div class="stat-label">❤️ HP: @Model.CurrentPlayer.HealthBar/20</div>
+                        </div>
+                        <div class="stat-bar">
+                            <div class="stat-fill stat-food"
+                                style="width: @((Model.CurrentPlayer.FoodBar / 20.0) * 100)%"></div>
+                            <div class="stat-label">🍖 FOOD: @Model.CurrentPlayer.FoodBar/20</div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.CurrentPlayer.Character != null)
+                {
+                    <div class="mc-panel">
+                        <h2 class="mc-panel-title">👤 CHARACTER SKIN</h2>
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            @if (!string.IsNullOrEmpty(Model.CurrentPlayer.Character.Skin))
+                            {
+                                <img src="@Model.CurrentPlayer.Character.Skin" alt="Character Skin" 
+                                     style="max-width: 200px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);" />
+                            }
+                            else
+                            {
+                                <div style="width: 200px; height: 200px; margin: 0 auto; background: linear-gradient(135deg, #E0E0E0 0%, #BDBDBD 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+                                    👤
+                                </div>
+                            }
+                        </div>
+                        <form method="post" asp-page-handler="UpdateSkin" enctype="multipart/form-data">
+                            <label for="skinInput" class="btn-upload" style="width: 100%; text-align: center; display: block;">
+                                🎨 Change Skin
+                            </label>
+                            <input type="file" id="skinInput" name="SkinFile" accept="image/*" style="display: none;" 
+                                   onchange="this.form.submit()" />
+                        </form>
+                    </div>
+                }
+
+                <div class="mc-panel">
+                    <h2 class="mc-panel-title">🔐 SECURITY</h2>
+                    @if (!Model.OtpSent)
+                    {
+                        <form method="post" asp-page-handler="SendOtp">
+                            <div class="form-group">
+                                <label class="form-label">New Password</label>
+                                <input type="password" name="NewPassword" class="mc-input"
+                                    placeholder="Enter new password..." required />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Confirm New Password</label>
+                                <input type="password" name="ConfirmPassword" class="mc-input"
+                                    placeholder="Confirm new password..." required />
+                            </div>
+                            <button type="submit" class="btn-update">SEND OTP TO EMAIL</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info" style="margin-bottom: 15px; font-size: 1.2rem;">
+                            ✉️ OTP code đã được gửi đến email của bạn. Vui lòng kiểm tra inbox hoặc spam folder.
+                        </div>
+                        <form method="post" asp-page-handler="VerifyOtp">
+                            <div class="form-group">
+                                <label class="form-label">Enter OTP Code</label>
+                                <input type="text" name="OtpCode" class="mc-input"
+                                    placeholder="Enter 6-digit OTP..." required maxlength="6" />
+                            </div>
+                            <button type="submit" class="btn-update" style="background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);">VERIFY & UPDATE PASSWORD</button>
+                            <button type="submit" class="btn-update" asp-page-handler="CancelOtp" style="background: linear-gradient(135deg, #9E9E9E 0%, #616161 100%); margin-top: 10px;">CANCEL</button>
+                        </form>
+                    }
+                </div>
+            </div>
+
+            <!-- Right Column: Data -->
+            <div class="right-col">
+                <!-- Quests & Achievements -->
+                <div class="mc-panel">
+                    <h2 class="mc-panel-title">🎯 QUESTS & ACHIEVEMENTS</h2>
+                    <div class="stats-summary">
+                        <strong>Total Monsters Slain: </strong> <span
+                            style="color: var(--mc-red); font-size: 1.6rem;">@Model.TotalMonsterKills ⚔️</span>
+                    </div>
+
+                    <h4 class="section-subtitle">✅ Completed Quests</h4>
+                    @if (Model.CompletedQuests.Any())
+                    {
+                        @foreach (var quest in Model.CompletedQuests)
+                        {
+                            <div class="quest-item quest-completed">
+                                <span><strong>@quest.Quest.QuestName</strong></span>
+                                <span style="font-size: 1.8rem;">✅</span>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p style="color: #999; text-align: center; padding: 20px;">No completed quests yet. Start your
+                            adventure!</p>
+                    }
+
+                    <h4 class="section-subtitle" style="color: #FF9800;">⏳ Active Quests</h4>
+                    @if (Model.IncompleteQuests.Any())
+                    {
+                        @foreach (var quest in Model.IncompleteQuests)
+                        {
+                            <div class="quest-item quest-incomplete">
+                                <span><strong>@quest.Quest.QuestName</strong></span>
+                                <span style="font-size: 1.8rem;">⏳</span>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p style="color: #999; text-align: center; padding: 20px;">No active quests. Ready for new
+                            challenges!</p>
+                    }
+                </div>
+
+                <!-- Transaction History -->
+                <div class="mc-panel">
+                    <h2 class="mc-panel-title">💰 TRANSACTION HISTORY</h2>
+                    @if (Model.RecentTransactions.Any())
+                    {
+                        <table class="mc-table">
+                            <thead>
+                                <tr>
+                                    <th>📦 Item/Vehicle</th>
+                                    <th>🔖 Type</th>
+                                    <th>💎 Value</th>
+                                    <th>📅 Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var trans in Model.RecentTransactions)
+                                {
+                                    <tr>
+                                        <td>
+                                            <strong>@(trans.ItemSheet?.ItemVersionName ?? trans.Vehicle?.VehicleName ??
+                                                                                        "Unknown")</strong>
+                                        </td>
+                                        <td>@trans.TransactionType</td>
+                                        <td style="color: var(--mc-primary); font-weight: bold;">@trans.TransactionValue</td>
+                                        <td>@trans.TransactionTime.ToString("dd/MM/yyyy HH:mm")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p style="text-align: center; color: #999; padding: 40px;">No transactions yet. Start trading!</p>
+                    }
+                </div>
+
+                <!-- Activity Log -->
+                <div class="mc-panel">
+                    <h2 class="mc-panel-title">📊 ACTIVITY LOG</h2>
+                    @if (Model.PlayLogs.Any())
+                    {
+                        <table class="mc-table">
+                            <thead>
+                                <tr>
+                                    <th>🎮 Game Mode</th>
+                                    <th>🕐 Start Time</th>
+                                    <th>⏱️ Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var log in Model.PlayLogs)
+                                {
+                                    <tr>
+                                        <td><strong>@log.Mode.ModeName</strong></td>
+                                        <td>@log.StartTime.ToString("dd/MM/yyyy HH:mm")</td>
+                                        <td>
+                                            @if (log.EndTime.HasValue)
+                                            {
+                                                <span style="color: var(--mc-dark); font-weight: bold;">@((log.EndTime.Value -
+                                                                                            log.StartTime).ToString(@"hh\:mm"))</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="color: var(--mc-primary); font-weight: bold;">⚡ Playing...</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p style="text-align: center; color: #999; padding: 40px;">No activity yet. Start playing!</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
