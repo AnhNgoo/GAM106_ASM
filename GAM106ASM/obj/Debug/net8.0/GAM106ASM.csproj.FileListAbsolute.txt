@@ -119,3 +119,4 @@ E:\FPT Polytechnic\GAM106 - Lập trình Game Back-End\Labs\GAM106ASM\GAM106ASM\
 E:\FPT Polytechnic\GAM106 - Lập trình Game Back-End\Labs\GAM106ASM\GAM106ASM\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
 E:\FPT Polytechnic\GAM106 - Lập trình Game Back-End\Labs\GAM106ASM\GAM106ASM\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
 E:\FPT Polytechnic\GAM106 - Lập trình Game Back-End\Labs\GAM106ASM\GAM106ASM\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+E:\FPT Polytechnic\GAM106 - Lập trình Game Back-End\Labs\GAM106ASM\GAM106ASM\obj\Debug\net8.0\GAM106ASM.sourcelink.json
